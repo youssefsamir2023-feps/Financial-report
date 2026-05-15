@@ -1,0 +1,388 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.dash{background:#0f172a;min-height:100vh;padding:2rem;color:#f1f5f9}
+.brand-bar{display:flex;align-items:center;gap:12px;margin-bottom:2rem;padding-bottom:1rem;border-bottom:0.5px solid rgba(255,255,255,.1)}
+.brand-logo{width:48px;height:48px;border-radius:50%;background:#E31E24;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;color:#fff}
+.brand-title{font-size:22px;font-weight:500;color:#f1f5f9}
+.brand-sub{font-size:13px;color:#94a3b8;margin-top:2px}
+.badge{background:rgba(227,30,36,.15);color:#fca5a5;font-size:11px;padding:3px 10px;border-radius:999px;border:0.5px solid rgba(227,30,36,.4);margin-left:auto}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;color:#64748b;text-transform:uppercase;margin:1.5rem 0 .75rem}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:1.5rem}
+.kpi{background:rgba(255,255,255,.05);border:0.5px solid rgba(255,255,255,.1);border-radius:12px;padding:1rem 1.25rem}
+.kpi-label{font-size:12px;color:#64748b;margin-bottom:4px}
+.kpi-value{font-size:26px;font-weight:500;color:#f1f5f9}
+.kpi-delta{font-size:12px;margin-top:4px}
+.up{color:#4ade80}.down{color:#f87171}
+.ratio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:1.5rem}
+.card{background:rgba(255,255,255,.04);border:0.5px solid rgba(255,255,255,.1);border-radius:14px;padding:1.25rem}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
+.card-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.icon-liq{background:rgba(56,189,248,.15);color:#38bdf8}
+.icon-lev{background:rgba(251,146,60,.15);color:#fb923c}
+.icon-cov{background:rgba(167,139,250,.15);color:#a78bfa}
+.icon-gp{background:rgba(52,211,153,.15);color:#34d399}
+.icon-np{background:rgba(34,211,238,.15);color:#22d3ee}
+.icon-roa{background:rgba(251,191,36,.15);color:#fbbf24}
+.icon-roe{background:rgba(244,114,182,.15);color:#f472b6}
+.card-title{font-size:14px;font-weight:500;color:#e2e8f0}
+.ratio-compare{display:flex;gap:16px;margin-bottom:.75rem}
+.ratio-year{flex:1}
+.ratio-year-label{font-size:11px;color:#64748b;margin-bottom:4px}
+.ratio-val{font-size:22px;font-weight:500}
+.val-2023{color:#005696}
+.val-2025{color:#E31E24}
+.bar-wrap{margin:.5rem 0 .75rem}
+.bar-track{background:rgba(255,255,255,.08);border-radius:4px;height:8px;overflow:hidden;margin-bottom:6px}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.bar-2023{background:#005696}
+.bar-2025{background:#E31E24}
+.bar-labels{display:flex;justify-content:space-between;font-size:11px;color:#64748b}
+.comment{background:rgba(255,255,255,.05);border-left:2px solid rgba(148,163,184,.3);border-radius:0 6px 6px 0;padding:.5rem .75rem;font-size:12px;color:#94a3b8;font-style:italic;line-height:1.5}
+.comment i{margin-right:4px;color:#fbbf24;font-style:normal}
+.trend-up .comment{border-left-color:rgba(74,222,128,.4)}
+.trend-down .comment{border-left-color:rgba(248,113,113,.4)}
+.chart-card{background:rgba(255,255,255,.04);border:0.5px solid rgba(255,255,255,.1);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem}
+.chart-title{font-size:14px;font-weight:500;color:#e2e8f0;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.legend{display:flex;gap:20px;margin-bottom:1rem;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:1.5rem}
+.profile-card{background:rgba(255,255,255,.04);border:0.5px solid rgba(255,255,255,.1);border-radius:14px;padding:1.25rem}
+.profile-card h3{font-size:14px;font-weight:500;color:#e2e8f0;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.profile-card p{font-size:13px;color:#94a3b8;line-height:1.7}
+.tag{display:inline-block;background:rgba(56,189,248,.1);color:#38bdf8;font-size:11px;padding:2px 8px;border-radius:999px;border:0.5px solid rgba(56,189,248,.3);margin:2px}
+.verdict{background:rgba(34,197,94,.08);border:0.5px solid rgba(34,197,94,.3);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem}
+.verdict-title{font-size:16px;font-weight:500;color:#4ade80;margin-bottom:.5rem;display:flex;align-items:center;gap:8px}
+.verdict-body{font-size:13px;color:#94a3b8;line-height:1.7}
+.risk-card{background:rgba(248,113,113,.06);border:0.5px solid rgba(248,113,113,.25);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem}
+.risk-title{font-size:14px;font-weight:500;color:#fca5a5;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.risk-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#94a3b8;margin-bottom:.5rem;line-height:1.6}
+.risk-dot{width:6px;height:6px;border-radius:50%;background:#f87171;margin-top:6px;flex-shrink:0}
+.strength-card{background:rgba(74,222,128,.06);border:0.5px solid rgba(74,222,128,.25);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem}
+.strength-title{font-size:14px;font-weight:500;color:#86efac;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.str-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#94a3b8;margin-bottom:.5rem;line-height:1.6}
+.str-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;margin-top:6px;flex-shrink:0}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem}
+@media(max-width:600px){.two-col{grid-template-columns:1fr}}
+</style>
+
+<div class="dash">
+<h2 class="sr-only">Obour Land Food Industries — Comparative Financial Dashboard 2023 vs 2025</h2>
+
+<div class="brand-bar">
+  <div class="brand-logo">OL</div>
+  <div>
+    <div class="brand-title">Obour Land Food Industries</div>
+    <div class="brand-sub">Comparative Financial Analysis — 2023 vs 2025</div>
+  </div>
+  <div class="badge">EGX Listed · Est. 1997</div>
+</div>
+
+<div class="section-label">Company profile</div>
+<div class="profile-grid">
+  <div class="profile-card">
+    <h3><i class="ti ti-building-factory-2" aria-hidden="true"></i> About the company</h3>
+    <p>Founded in 1997, Obour Land is one of Egypt's leading food manufacturers. Originally focused on white cheese and dairy, it expanded into processed cheese and vegetable fats, and later juices. Listed on the Egyptian Exchange (EGX) in 2016 after years of growth and modernization.</p>
+  </div>
+  <div class="profile-card">
+    <h3><i class="ti ti-world" aria-hidden="true"></i> Operations & reach</h3>
+    <p style="margin-bottom:.6rem">Exports to 44+ countries. Continuous investment in modern production technology and plant efficiency. Strategic expansion into new product categories supports long-term revenue diversification.</p>
+    <div><span class="tag">White Cheese</span><span class="tag">Dairy</span><span class="tag">Processed Cheese</span><span class="tag">Vegetable Fats</span><span class="tag">Juices</span></div>
+  </div>
+</div>
+
+<div class="section-label">Growth highlights</div>
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="kpi-label">Net Revenue 2023</div>
+    <div class="kpi-value" style="color:#005696">EGP 7.20B</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Net Revenue 2025</div>
+    <div class="kpi-value" style="color:#E31E24">EGP 11.12B</div>
+    <div class="kpi-delta up">↑ 54.5% growth</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Net Profit 2023</div>
+    <div class="kpi-value" style="color:#005696">EGP 470.7M</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Net Profit 2025</div>
+    <div class="kpi-value" style="color:#E31E24">EGP 854.2M</div>
+    <div class="kpi-delta up">↑ 81.5% growth</div>
+  </div>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> Revenue & profit comparison</div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#005696"></div>2023</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#E31E24"></div>2025</div>
+  </div>
+  <div style="position:relative;width:100%;height:220px">
+    <canvas id="growthChart" role="img" aria-label="Bar chart comparing revenue and net profit in 2023 vs 2025. Revenue grew from 7.20B to 11.12B; profit from 470.7M to 854.2M.">Revenue 2023: 7.20B, 2025: 11.12B. Net Profit 2023: 470.7M, 2025: 854.2M.</canvas>
+  </div>
+</div>
+
+<div class="section-label"><i class="ti ti-droplet" aria-hidden="true" style="margin-right:4px"></i>Liquidity ratios</div>
+<div class="ratio-grid">
+  <div class="card trend-down">
+    <div class="card-header">
+      <div class="card-icon icon-liq"><i class="ti ti-droplet" aria-hidden="true"></i></div>
+      <div class="card-title">Current ratio</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">1.34</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">1.0</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:89.3%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:66.7%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>⚠</i> Fell to exactly 1.0 — barely covers short-term liabilities; liquidity cushion has eroded significantly.</div>
+  </div>
+  <div class="card trend-down">
+    <div class="card-header">
+      <div class="card-icon icon-liq"><i class="ti ti-flask" aria-hidden="true"></i></div>
+      <div class="card-title">Acid-test ratio (quick ratio)</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">0.79</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">0.36</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:79%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:36%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>⚠</i> Alarming 54% collapse — company cannot meet short-term obligations without liquidating inventory; severe cash flow pressure.</div>
+  </div>
+</div>
+
+<div class="section-label"><i class="ti ti-scale" aria-hidden="true" style="margin-right:4px"></i>Financial leverage ratios</div>
+<div class="ratio-grid">
+  <div class="card trend-down">
+    <div class="card-header">
+      <div class="card-icon icon-lev"><i class="ti ti-scale" aria-hidden="true"></i></div>
+      <div class="card-title">Debt-to-equity ratio</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">1.30x</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">2.62x</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:49.6%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:100%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>⚠</i> Debt doubled relative to equity — aggressive borrowing strategy increases exposure to interest rate risk and creditor pressure.</div>
+  </div>
+  <div class="card trend-down">
+    <div class="card-header">
+      <div class="card-icon icon-lev"><i class="ti ti-chart-pie" aria-hidden="true"></i></div>
+      <div class="card-title">Debt-to-total assets</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">56.5%</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">72.4%</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:56.5%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:72.4%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>⚠</i> Nearly 3/4 of assets financed by creditors — elevated structural risk; leaves limited room for additional borrowing.</div>
+  </div>
+  <div class="card trend-down">
+    <div class="card-header">
+      <div class="card-icon icon-lev"><i class="ti ti-building-bank" aria-hidden="true"></i></div>
+      <div class="card-title">Total capitalization ratio</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">0.03</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">0.077</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:39%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:96.3%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>ℹ</i> Slight increase but still low — company still leans on equity for its long-term capital structure, moderate long-term debt shift.</div>
+  </div>
+</div>
+
+<div class="section-label"><i class="ti ti-shield" aria-hidden="true" style="margin-right:4px"></i>Interest coverage</div>
+<div class="ratio-grid">
+  <div class="card trend-down">
+    <div class="card-header">
+      <div class="card-icon icon-cov"><i class="ti ti-shield" aria-hidden="true"></i></div>
+      <div class="card-title">Interest coverage ratio (EBIT / Interest)</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">11.26x</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">4.12x</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:100%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:36.6%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>⚠</i> 63% decline — debt servicing now consumes a far larger share of operating income; financial flexibility significantly reduced.</div>
+  </div>
+</div>
+
+<div class="section-label"><i class="ti ti-trending-up" aria-hidden="true" style="margin-right:4px"></i>Profitability ratios</div>
+<div class="ratio-grid">
+  <div class="card trend-down">
+    <div class="card-header">
+      <div class="card-icon icon-gp"><i class="ti ti-coin" aria-hidden="true"></i></div>
+      <div class="card-title">Gross profit margin</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">28.4%</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">19.4%</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:100%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:68.3%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>⚠</i> 9pp compression — rising input and production costs are squeezing margins; a structural concern if cost pressures persist.</div>
+  </div>
+  <div class="card trend-up">
+    <div class="card-header">
+      <div class="card-icon icon-np"><i class="ti ti-receipt" aria-hidden="true"></i></div>
+      <div class="card-title">Net profit margin</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">6.5%</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">7.7%</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:84.4%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:100%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>✓</i> Positive signal — improved overall cost control and reduced overheads boosted bottom-line margins despite gross margin pressure.</div>
+  </div>
+</div>
+
+<div class="section-label"><i class="ti ti-arrow-up-right" aria-hidden="true" style="margin-right:4px"></i>Return ratios</div>
+<div class="ratio-grid">
+  <div class="card trend-down">
+    <div class="card-header">
+      <div class="card-icon icon-roa"><i class="ti ti-chart-dots" aria-hidden="true"></i></div>
+      <div class="card-title">Return on assets (ROA)</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">18.2%</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">14.5%</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:100%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:79.7%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>⚠</i> Rapid asset expansion hasn't yet translated proportionately into earnings — assets growing faster than profit generation.</div>
+  </div>
+  <div class="card trend-up">
+    <div class="card-header">
+      <div class="card-icon icon-roe"><i class="ti ti-trophy" aria-hidden="true"></i></div>
+      <div class="card-title">Return on equity (ROE)</div>
+    </div>
+    <div class="ratio-compare">
+      <div class="ratio-year"><div class="ratio-year-label">2023</div><div class="ratio-val val-2023">41.8%</div></div>
+      <div class="ratio-year"><div class="ratio-year-label">2025</div><div class="ratio-val val-2025">52.7%</div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-track"><div class="bar-fill bar-2023" style="width:79.3%"></div></div>
+      <div class="bar-track"><div class="bar-fill bar-2025" style="width:100%"></div></div>
+      <div class="bar-labels"><span>2023</span><span>2025</span></div>
+    </div>
+    <div class="comment"><i>✓</i> Outstanding — shareholders are earning 52.7 cents per EGP invested; amplified in part by the higher leverage deployed.</div>
+  </div>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title"><i class="ti ti-chart-radar" aria-hidden="true"></i> All ratios at a glance (2023 vs 2025)</div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#005696"></div>2023</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#E31E24"></div>2025</div>
+  </div>
+  <div style="position:relative;width:100%;height:300px">
+    <canvas id="allRatiosChart" role="img" aria-label="Grouped bar chart comparing all 10 financial ratios between 2023 and 2025.">All ratio values for 2023 and 2025 shown above in individual cards.</canvas>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="strength-card">
+    <div class="strength-title"><i class="ti ti-thumb-up" aria-hidden="true"></i> Strengths</div>
+    <div class="str-item"><div class="str-dot"></div>Revenue surged 54.5% — from EGP 7.20B to EGP 11.12B in two years</div>
+    <div class="str-item"><div class="str-dot"></div>Net profit up 81.5% — faster than revenue, signaling improved efficiency</div>
+    <div class="str-item"><div class="str-dot"></div>Net profit margin improved from 6.5% → 7.7% despite cost headwinds</div>
+    <div class="str-item"><div class="str-dot"></div>Exceptional ROE of 52.7% — top-tier shareholder value creation</div>
+    <div class="str-item"><div class="str-dot"></div>Export presence in 44+ countries provides diversified revenue base</div>
+  </div>
+  <div class="risk-card">
+    <div class="risk-title"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Risks</div>
+    <div class="risk-item"><div class="risk-dot"></div>Acid-test ratio at 0.36 — dangerously low; short-term solvency concern</div>
+    <div class="risk-item"><div class="risk-dot"></div>D/E doubled to 2.62x — heavy reliance on borrowed capital</div>
+    <div class="risk-item"><div class="risk-dot"></div>72.4% of assets now creditor-financed — limited borrowing headroom</div>
+    <div class="risk-item"><div class="risk-dot"></div>Gross margin compressed 9pp — structural cost pressure if persistent</div>
+    <div class="risk-item"><div class="risk-dot"></div>Interest coverage fell from 11.26x to 4.12x — debt burden is rising</div>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="verdict-title"><i class="ti ti-check-circle" aria-hidden="true"></i> Investment verdict — Conditional Buy</div>
+  <div class="verdict-body">Suitable for growth-oriented investors with moderate-to-high risk tolerance and a 3–5 year horizon. Strong revenue momentum, expanding export footprint, and outstanding ROE make a compelling case. However, the sharp liquidity deterioration and rising leverage demand close monitoring. Conservative investors should adopt a HOLD / WAIT stance until the acid-test ratio recovers and gross margins stabilize. Key triggers to watch: acid-test ratio trend, gross profit margin recovery, and interest coverage staying above 3.5x.</div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const gridColor='rgba(255,255,255,0.07)';
+const tickColor='#64748b';
+
+new Chart(document.getElementById('growthChart'),{
+  type:'bar',
+  data:{
+    labels:['Net Revenue (EGP B)','Net Profit (EGP M / 10)'],
+    datasets:[
+      {label:'2023',data:[7.20,47.07],backgroundColor:'#005696',borderRadius:6},
+      {label:'2025',data:[11.12,85.42],backgroundColor:'#E31E24',borderRadius:6}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{const v=ctx.parsed.y;return ctx.dataset.label+': '+v.toFixed(2)}}}},
+    scales:{
+      x:{ticks:{color:tickColor},grid:{color:gridColor}},
+      y:{ticks:{color:tickColor},grid:{color:gridColor}}
+    }
+  }
+});
+
+new Chart(document.getElementById('allRatiosChart'),{
+  type:'bar',
+  data:{
+    labels:['Current\nRatio','Acid\nTest','D/E','D/Assets\n(%)','Cap\nRatio','Int\nCoverage','Gross\nMargin %','Net\nMargin %','ROA %','ROE %'],
+    datasets:[
+      {label:'2023',data:[1.34,0.79,1.30,56.5,3,11.26,28.4,6.5,18.2,41.8],backgroundColor:'#005696',borderRadius:4},
+      {label:'2025',data:[1.0,0.36,2.62,72.4,7.7,4.12,19.4,7.7,14.5,52.7],backgroundColor:'#E31E24',borderRadius:4}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)}}},
+    scales:{
+      x:{ticks:{color:tickColor,font:{size:11}},grid:{color:gridColor}},
+      y:{ticks:{color:tickColor},grid:{color:gridColor}}
+    }
+  }
+});
+</script>
